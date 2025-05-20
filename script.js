@@ -1,4 +1,8 @@
 const img = document.querySelector("img");
+const newImgBtn = document.querySelector(".new-img");
+const searchBtn = document.querySelector(".search-btn");
+const input = document.querySelector("#item");
+const form = document.querySelector(".form");
 
 function fetchNewImg() {
   fetch(
@@ -11,6 +15,7 @@ function fetchNewImg() {
       return response.json();
     })
     .then(function (response) {
+      console.log("done");
       img.src = response.data.images.original.url;
     })
     .catch((e) => {
@@ -19,5 +24,9 @@ function fetchNewImg() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  fetchNewImg();
+});
+
+newImgBtn.addEventListener("click", () => {
   fetchNewImg();
 });
