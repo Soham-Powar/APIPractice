@@ -18,7 +18,7 @@ function fetchNewImg(searchValue = "cats") {
         message.textContent = `No GIF found for "${searchValue}". Try something else!`;
       } else {
         message.textContent = "";
-        img.src = response.data.images.original.url + `?cb=${Date.now()}`;
+        img.src = response.data.images.original.url;
       }
     })
     .catch((e) => {
