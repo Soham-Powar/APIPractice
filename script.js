@@ -5,27 +5,45 @@ const searchBar = document.querySelector("#item");
 const form = document.querySelector(".form");
 const message = document.querySelector(".message");
 
-function fetchNewImg(searchValue = "cats") {
+// function fetchNewImg(searchValue = "cats") {
+//   fetchURL = `https://api.giphy.com/v1/gifs/translate?api_key=6laVh6xhrqkllMnPOOQWvozyaWq3K8Xv&s=${searchValue}`;
+
+//   fetch(fetchURL, {
+//     mode: "cors",
+//   })
+//     .then((response) => response.json())
+//     .then((response) => {
+//       if (!response.data || !response.data.images) {
+//         img.src = "https://placehold.co/300x200?text=No+GIF+Found";
+//         message.textContent = `No GIF found for "${searchValue}". Try something else!`;
+//       } else {
+//         message.textContent = "";
+//         img.src = response.data.images.original.url;
+//       }
+//     })
+//     .catch((e) => {
+//       console.log("Fetch error:" + e);
+//       img.src = "https://placehold.co/300x200?text=Error+Loading+GIF";
+//       message.textContent = "Something went wrong. Please try again later.";
+//     });
+// }
+
+// Refactor using async/await instead of promises
+
+async function fetchNewImg(searchValue = "cats") {
   fetchURL = `https://api.giphy.com/v1/gifs/translate?api_key=6laVh6xhrqkllMnPOOQWvozyaWq3K8Xv&s=${searchValue}`;
 
-  fetch(fetchURL, {
+  const response = await fetch(fetchURL, {
     mode: "cors",
-  })
-    .then((response) => response.json())
-    .then((response) => {
-      if (!response.data || !response.data.images) {
-        img.src = "https://placehold.co/300x200?text=No+GIF+Found";
-        message.textContent = `No GIF found for "${searchValue}". Try something else!`;
-      } else {
-        message.textContent = "";
-        img.src = response.data.images.original.url;
-      }
-    })
-    .catch((e) => {
-      console.log("Fetch error:" + e);
-      img.src = "https://placehold.co/300x200?text=Error+Loading+GIF";
-      message.textContent = "Something went wrong. Please try again later.";
-    });
+  });
+  const imgData = await response.json();
+  if (!imgData.data || !imgData.data.images) {
+    img.src = "https://placehold.co/300x200?text=No+GIF+Found";
+    message.textContent = `No GIF found for "${searchValue}". Try something else!`;
+  } else {
+    message.textContent = "";
+    img.src = imgData.data.images.original.url;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
